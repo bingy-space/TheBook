@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Book = require('./models/book');
 
 // Call mongoose.connect
-mongoose.connect('mongodb://localhost:27017/discover-museum', {
+mongoose.connect('mongodb://localhost:27017/the-book', {
     // useNewUrlParser: true,
     // useCreateIndex: true,
     // useUnifiedTopology: true
@@ -24,11 +24,10 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-// Creating a new book
-app.get('/makebook', async (req, res) => {
-    const book = new Book({title: 'Sherlock Holmes: The Complete Novels and Stories, Vol. 1', author: 'Sir Arthur Conan Doyle'})
-    await book.save();
-    res.send(book);
+// Route to display book list
+app.get('/books', async (req, res) => {
+    const books = await Book.find({});
+    res.render('books/index', { books });
 })
 
 app.listen(3000, () => {
