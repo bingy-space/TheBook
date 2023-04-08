@@ -1,0 +1,11 @@
+module.exports.author = [
+    'Leo Tolstoy',
+    'William Shakespeare',
+    'James Joyce',
+    'Vladimir Nabokov',
+    'Gustave Flaubert',
+    'Jane Austen',
+    'Charles Dickens',
+    'Anton Chekhov',
+    'Fyodor Dostoevsky'
+]
