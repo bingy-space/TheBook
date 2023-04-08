@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
+    <title>Book Detail</title>
 </head>
 <body>
-    <h1>All Books</h1>
-    <ul>
-        <% for(let book of books){ %>
-            <li><a href="/books/<%= book._id %>"><%= book.title %></a></li>
-        <%}%>
-    </ul>
+    <h1>Book Detail</h1>
+    <h4><%= book.title %></h4>
+    <h4><%= book.author %></h4>
+
+    <footer>
+        <a href="/books">All Museum</a>
+    </footer>
 </body>
 </html>
