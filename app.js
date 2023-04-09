@@ -19,6 +19,8 @@ const app = express();
 
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views'));
+// parses incoming requests
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -28,6 +30,18 @@ app.get('/', (req, res) => {
 app.get('/books', async (req, res) => {
     const books = await Book.find({});
     res.render('books/index', { books });
+})
+
+// New Route: add a book page
+app.get('/books/new', async (req, res) => {
+    res.render('books/new');
+})
+
+// POST new book
+app.post('/books', async (req, res) => {
+    const book = new Book(req.body.book);
+    await book.save();
+    res.redirect(`/books/${book._id}`)
 })
 
 // Show Route: to show book detail
