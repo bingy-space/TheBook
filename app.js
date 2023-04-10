@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Book = require('./models/book');
+const methodOverride = require('method-override');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -20,7 +21,9 @@ const app = express();
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views'));
 // parses incoming requests
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+// method-override
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -48,6 +51,19 @@ app.post('/books', async (req, res) => {
 app.get('/books/:id', async (req, res) => {
     const book = await Book.findById(req.params.id);
     res.render('books/show',{ book });
+})
+
+// Edit Route: edit book form
+app.get('/books/:id/edit', async (req, res) => {
+    const book = await Book.findById(req.params.id);
+    res.render('books/edit',{ book });
+})
+
+// Edit Route: update book
+app.put('/books/:id', async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findByIdAndUpdate(id, { ...req.body.book });
+    res.redirect(`/books/${ book._id }`);
 })
 
 app.listen(3000, () => {
