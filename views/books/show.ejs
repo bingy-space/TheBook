@@ -12,6 +12,9 @@
     <h4><%= book.author %></h4>
 
     <a href="/books/<%= book._id %>/edit">Edit</a>
+    <form action="/books/<%= book._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
     <footer>
         <a href="/books">All Museum</a>
     </footer>
