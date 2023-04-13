@@ -29,7 +29,11 @@ const seedDB = async () => {
         // const random1000 = Math.floor(Math.random() * 1000);
         const theBook = new Book({
             author: `${sample(author)}`,
-            title: `${sample(title)}`
+            title: `${sample(title)}`,
+            image: 'https://images.unsplash.com/photo-1600189261867-30e5ffe7b8da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+            isbn: '0590353403',
+            language: 'English'
         })
         await theBook.save();
     }

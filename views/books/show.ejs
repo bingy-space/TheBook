@@ -1,8 +1,12 @@
 <% layout('/layouts/boilerplate.ejs')%>
 
     <h1>Book Detail</h1>
+    <img src="<%= book.image %>" alt="">
     <h4><%= book.title %></h4>
-    <h4><%= book.author %></h4>
+    <h5><%= book.author %></h5>
+    <p>Language: <%= book.language %></p>
+    <p>ISBN: <%= book.isbn %></p>
+    <p>Description: <%= book.description %></p>
 
     <a href="/books/<%= book._id %>/edit">Edit</a>
     <form action="/books/<%= book._id%>?_method=DELETE" method="POST">
