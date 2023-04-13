@@ -9,10 +9,16 @@
         rel="stylesheet" 
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
         crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400&display=swap" rel="stylesheet">
     <title>Boilerplate</title>
 </head>
 <body>
-    <main class="container-lg">
+    <%- include('../partials/navbar') %>
+    <main class="container-lg" style="font-family: 'IBM Plex Sans', sans-serif;">
         <%- body %>
     </main>
 
