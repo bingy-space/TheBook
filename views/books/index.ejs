@@ -1,11 +1,27 @@
 <% layout('/layouts/boilerplate.ejs')%>
 
-    <h1>All Books</h1>
-    <div>
-        <a href="/books/new">Add New Book</a>
+    <!-- Jumbotron -->
+    <div class="p-5 text-center bg-light container-fluid" style="margin-top: 30px; margin-bottom: 30px;">
+        <h1 class="mb-3">TheBook</h1>
+        <a class="btn btn-primary" href="/books/new" role="button">Add New Book</a>
     </div>
-    <ul>
+    <!-- Jumbotron -->
+
+    <div class="d-flex align-content-start flex-wrap gap-3">
         <% for(let book of books){ %>
-            <li><a href="/books/<%= book._id %>"><%= book.title %></a></li>
-        <%}%>
-    </ul>
+            <div class="card" style="width:19.5rem;">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80" class="card-img-top" alt="..." />
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= book.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= book.author %>
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="/books/<%= book._id %>" class="btn btn-primary btn-rounded">View Detail</a>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+    </div>
