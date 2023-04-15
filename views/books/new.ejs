@@ -1,15 +1,69 @@
 <% layout('/layouts/boilerplate.ejs')%>
 
-    <h1>New Book</h1>
-    <form action="/books" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="book[title]">
+    <div class="row d-flex justify-content-center">
+        <!--Grid column-->
+        <div class="col-md-6">
+            <div class="card bg-light" style="margin-top: 30px; margin-bottom: 30px; border: none;">
+                <div class="card-body">
+                    <form action="/books" method="POST" novalidate class="validated-form">
+                        <div>
+                            <h3 class="text-center">New Book</h3>
+                            <!-- Title input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="title">Title</label>
+                                <input type="text" id="title" name="book[title]" class="form-control" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Author input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">Author</label>
+                                <input type="text" id="author" name="book[author]" class="form-control" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Image Url input -->
+                            <div class="form-outline mb-4 custom-file">
+                                <label class="form-label" for="image">Image URL</label>
+                                <input type="text" id="image" name="book[image]" class="form-control" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- ISBN input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">ISBN</label>
+                                <input type="text" id="author" name="book[isbn]" class="form-control" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Language input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">Language</label>
+                                <input type="text" id="author" name="book[language]" class="form-control" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Description input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="form4Example3">Description</label>
+                                <textarea class="form-control" id="description" rows="4" name="book[description]"
+                                    required></textarea>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Submit button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" rows="4" class="btn btn-primary btn-block mb-4">Add
+                                    Book</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Back to All Book button -->
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-dark btn-block" href="/books">All Book</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="author">Author</label>
-            <input type="text" id="author" name="book[author]">
-        </div>
-        <button>Add Book</button>
-    </form>
-    <a href="/books">All Book</a>
+        <!--Grid column-->
+    </div>
