@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Book = require('./models/book');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utils/catchAsync');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -32,47 +33,54 @@ app.get('/', (req, res) => {
 })
 
 // Route to display book list
-app.get('/books', async (req, res) => {
+app.get('/books',catchAsync(async (req, res) => {
     const books = await Book.find({});
     res.render('books/index', { books });
-})
+}))
 
 // New Route: add a book page
-app.get('/books/new', async (req, res) => {
+app.get('/books/new',catchAsync(async (req, res) => {
     res.render('books/new');
-})
+}))
 
 // POST new book
-app.post('/books', async (req, res) => {
+app.post('/books',catchAsync(async (req, res) => {
     const book = new Book(req.body.book);
+    console.log("Book POST:");
+    console.log(book);
     await book.save();
     res.redirect(`/books/${book._id}`)
-})
+}))
 
 // Show Route: to show book detail
-app.get('/books/:id', async (req, res) => {
+app.get('/books/:id',catchAsync(async (req, res) => {
     const book = await Book.findById(req.params.id);
     res.render('books/show',{ book });
-})
+}))
 
 // Edit Route: edit book form
-app.get('/books/:id/edit', async (req, res) => {
+app.get('/books/:id/edit',catchAsync(async (req, res) => {
     const book = await Book.findById(req.params.id);
     res.render('books/edit',{ book });
-})
+}))
 
 // Edit Route: update book
-app.put('/books/:id', async (req, res) => {
+app.put('/books/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     const book = await Book.findByIdAndUpdate(id, { ...req.body.book });
     res.redirect(`/books/${ book._id }`);
-})
+}))
 
 // Delete Route: delete a book
-app.delete('/books/:id', async (req, res) => {
+app.delete('/books/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     await Book.findByIdAndDelete(id);
     res.redirect('/books');
+}))
+
+// Error message
+app.use((err, req, res, next) => {
+    res.send('OMG !!');
 })
 
 app.listen(3000, () => {
