@@ -5,6 +5,7 @@ const Book = require('./models/book');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -78,9 +79,15 @@ app.delete('/books/:id',catchAsync(async (req, res) => {
     res.redirect('/books');
 }))
 
+// Route Error
+app.all('*', (req,res,next) => {
+    next(new ExpressError('Page Not Found', 404));
+})
+
 // Error message
 app.use((err, req, res, next) => {
-    res.send('OMG !!');
+    const { statusCode = 500, message = 'Something went wrong'} = err;
+    res.status(statusCode).send(message);
 })
 
 app.listen(3000, () => {
