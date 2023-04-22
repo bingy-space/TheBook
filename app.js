@@ -6,7 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { bookSchema } = require('./schemas.js');
+const { bookSchema } = require('./schema.js');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
