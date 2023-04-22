@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+const { bookSchema } = require('./schemas.js');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -29,6 +30,17 @@ app.use(express.urlencoded({ extended: true }));
 // method-override
 app.use(methodOverride('_method'));
 
+// Middleware
+const validateBook = (req,res,next) => {
+    const { error } = bookSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    }else{
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home');
 })
@@ -45,7 +57,7 @@ app.get('/books/new',catchAsync(async (req, res) => {
 }))
 
 // POST new book
-app.post('/books',catchAsync(async (req, res) => {
+app.post('/books',validateBook, catchAsync(async (req, res) => {
     const book = new Book(req.body.book);
     console.log("Book POST:");
     console.log(book);
@@ -66,7 +78,7 @@ app.get('/books/:id/edit',catchAsync(async (req, res) => {
 }))
 
 // Edit Route: update book
-app.put('/books/:id',catchAsync(async (req, res) => {
+app.put('/books/:id',validateBook, catchAsync(async (req, res) => {
     const { id } = req.params;
     const book = await Book.findByIdAndUpdate(id, { ...req.body.book });
     res.redirect(`/books/${ book._id }`);
