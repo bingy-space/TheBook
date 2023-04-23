@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Book = require('./models/book');
+const Review = require('./models/review');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
@@ -82,6 +83,16 @@ app.put('/books/:id',validateBook, catchAsync(async (req, res) => {
     const { id } = req.params;
     const book = await Book.findByIdAndUpdate(id, { ...req.body.book });
     res.redirect(`/books/${ book._id }`);
+}))
+
+// Review POST route: add review
+app.post('/books/:id/reviews', catchAsync(async (req, res) => {
+    const book = await Museum.findById(req.params.id);
+    const review = new Review(req.body.review);
+    book.reviews.push(review);
+    await review.save();
+    await book.save();
+    res.redirect(`/books/${book._id}`);
 }))
 
 // Delete Route: delete a book
