@@ -12,16 +12,21 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <h1><%= book.title %></h1>
+                        <h1>
+                            <%= book.title %>
+                        </h1>
                     </div>
                     <p class="card-text">
-                        <scan class="text-dark badge bg-light text-wrap">Author:</scan> <%= book.author %>
+                        <scan class="text-dark badge bg-light text-wrap">Author:</scan>
+                        <%= book.author %>
                     </p>
                     <p class="card-text">
-                        <scan class="text-dark badge bg-light text-wrap">Language:</scan> <%= book.language %>
+                        <scan class="text-dark badge bg-light text-wrap">Language:</scan>
+                        <%= book.language %>
                     </p>
                     <p class="card-text">
-                        <scan class="text-dark badge bg-light text-wrap">ISBN:</scan> <%= book.isbn %>
+                        <scan class="text-dark badge bg-light text-wrap">ISBN:</scan>
+                        <%= book.isbn %>
                     </p>
                     <p class="card-text">
                         <scan class="text-dark badge bg-light text-wrap">Description:</scan> <br>
@@ -38,6 +43,29 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Review Section -->
+            <div class="card mt-3">
+                <div class="card-header">Leave a Review</div>
+                <div class="card-body">
+                    <form action="">
+                        <!-- Slider input -->
+                        <label for="customRange3" class="form-label">Rating</label>
+                        <div class="range mb-4">
+                            <input type="range" class="form-range" min="0" max="5" step="1" id="rating"
+                                name="review[rating]" />
+                        </div>
+
+                        <!-- Textarea input -->
+                        <div class="form-outline mb-4">
+                            <textarea class="form-control" name="review[body]" id="'body" rows="4"></textarea>
+                            <label class="form-label" for="rating">Message</label>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
