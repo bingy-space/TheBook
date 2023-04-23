@@ -1,17 +1,44 @@
 <% layout('/layouts/boilerplate.ejs')%>
 
-    <h1>Book Detail</h1>
-    <img src="<%= book.image %>" alt="">
-    <h4><%= book.title %></h4>
-    <h5><%= book.author %></h5>
-    <p>Language: <%= book.language %></p>
-    <p>ISBN: <%= book.isbn %></p>
-    <p>Description: <%= book.description %></p>
+    <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="carousel slide">
+                    <img src="<%= book.image %>" class="img-fluid rounded-start" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h1><%= book.title %></h1>
+                    </div>
+                    <p class="card-text">
+                        <scan class="text-dark badge bg-light text-wrap">Author:</scan> <%= book.author %>
+                    </p>
+                    <p class="card-text">
+                        <scan class="text-dark badge bg-light text-wrap">Language:</scan> <%= book.language %>
+                    </p>
+                    <p class="card-text">
+                        <scan class="text-dark badge bg-light text-wrap">ISBN:</scan> <%= book.isbn %>
+                    </p>
+                    <p class="card-text">
+                        <scan class="text-dark badge bg-light text-wrap">Description:</scan> <br>
+                        <%= book.description %>
+                    </p>
 
-    <a href="/books/<%= book._id %>/edit">Edit</a>
-    <form action="/books/<%= book._id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    <footer>
-        <a href="/books">All book</a>
-    </footer>
+                    <div class="d-flex flex-row">
+                        <div class="p-2">
+                            <a class="btn btn-outline-primary" href="/books/<%= book._id %>/edit">Edit</a>
+                        </div>
+                        <div class="p-2">
+                            <form action="books/<%= book._id%>?_method=DELETE" method="POST">
+                                <button class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
