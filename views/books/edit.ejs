@@ -1,16 +1,76 @@
 <% layout('/layouts/boilerplate.ejs')%>
 
+    <div class="row d-flex justify-content-center">
+        <!--Grid column-->
+        <div class="col-md-6">
+            <div class="card bg-light" style="margin-top: 30px; margin-bottom: 30px; border: none;">
+                <div class="card-body">
+                    <form action="/books/<%= book._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+                        <div>
+                            <h3 class="text-center">Edit Book</h3>
+                            <!-- Title input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="title">Title</label>
+                                <input type="text" id="title" name="book[title]" class="form-control"
+                                    value="<%= book.title %>" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
 
-    <h1>Edit Book</h1>
-    <form action="/books/<%= book._id %>?_method=PUT" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="book[title]" value="<%= book.title %>">
+                            <!-- Author input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">Author</label>
+                                <input type="text" id="location" name="book[author]" class="form-control"
+                                    value="<%= book.author %>" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Language input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">Language</label>
+                                <input type="text" id="location" name="book[language]" class="form-control"
+                                    value="<%= book.language %>" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- ISBN input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="location">ISBN</label>
+                                <input type="text" id="location" name="book[isbn]" class="form-control"
+                                    value="<%= book.isbn %>" required />
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Image Url input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" id="image" name="book[image]" class="form-control"
+                                    value="<%= book.image %>" />
+                                <label class="form-label" for="location">Image URL</label>
+                            </div>
+
+                            <!-- Description input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="form4Example3">Description</label>
+                                <textarea class="form-control" id="description" rows="4" name="book[description]"
+                                    required><%= book.description %></textarea>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+
+                            <!-- Submit button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-block mb-4">Update Book</button>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a class="btn btn-outline-dark btn-block mb-4" href="/books/<%= book._id %>">Back to
+                                    Book</a>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="d-grid gap-2">
+                        <!-- Back to All Book button -->
+                        <a class="btn btn-primary btn-block" href="/books">All Book</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="location">Author</label>
-            <input type="text" id="location" name="book[author]" value="<%= book.author %>">
-        </div>
-        <button>Update Book</button>
-    </form>
-    <a href="/books/<%= book._id %>">Back to Book</a>
+        <!--Grid column-->
+    </div>
