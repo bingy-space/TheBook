@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { bookSchema } = require('./schema.js');
+const { bookSchema, reviewSchema } = require('./schema.js');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -77,7 +77,7 @@ app.post('/books',validateBook, catchAsync(async (req, res) => {
 
 // Show Route: to show book detail
 app.get('/books/:id',catchAsync(async (req, res) => {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findById(req.params.id).populate('reviews');
     res.render('books/show',{ book });
 }))
 

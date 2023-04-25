@@ -47,7 +47,7 @@
             </div>
 
             <!-- Review Section -->
-            <div class="card mt-3">
+            <div class="card mt-3 mb-3">
                 <div class="card-header">Leave a Review</div>
                 <div class="card-body">
                     <form action="/books/<%= book._id %>/reviews" method="POST">
@@ -55,7 +55,7 @@
                         <label for="customRange3" class="form-label">Rating</label>
                         <div class="range mb-4">
                             <input type="range" class="form-range" min="0" max="5" step="1" id="rating"
-                                name="review[rating]" required/>
+                                name="review[rating]" required />
                         </div>
 
                         <!-- Textarea input -->
@@ -69,5 +69,18 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Display Reviews -->
+            <% for(let review of book.reviews) {%>
+                <div class="card" style="margin-bottom: 15px;">
+                    <div class="card-body">
+                        <p class="starability-result" data-rating="<%= review.rating %>">
+                            Rated: <%= review.rating %> stars
+                        </p>
+                        <p><%= review.body %></p>
+                    </div>
+                </div>
+            <% } %>
+
         </div>
     </div>
