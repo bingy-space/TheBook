@@ -41,6 +41,15 @@ const validateBook = (req,res,next) => {
         next();
     }
 }
+const validateReview = (req,res,next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    }else{
+        next();
+    }
+}
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -86,8 +95,8 @@ app.put('/books/:id',validateBook, catchAsync(async (req, res) => {
 }))
 
 // Review POST route: add review
-app.post('/books/:id/reviews', catchAsync(async (req, res) => {
-    const book = await Museum.findById(req.params.id);
+app.post('/books/:id/reviews',validateReview, catchAsync(async (req, res) => {
+    const book = await Book.findById(req.params.id);
     const review = new Review(req.body.review);
     book.reviews.push(review);
     await review.save();
