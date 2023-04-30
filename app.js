@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const { bookSchema, reviewSchema } = require('./schema.js');
+const books = require('./routes/books');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -31,16 +32,10 @@ app.use(express.urlencoded({ extended: true }));
 // method-override
 app.use(methodOverride('_method'));
 
+// Book Routes
+app.use('/books', books);
+
 // Middleware
-const validateBook = (req,res,next) => {
-    const { error } = bookSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    }else{
-        next();
-    }
-}
 const validateReview = (req,res,next) => {
     const { error } = reviewSchema.validate(req.body);
     if(error){
@@ -54,45 +49,6 @@ const validateReview = (req,res,next) => {
 app.get('/', (req, res) => {
     res.render('home');
 })
-
-// Route to display book list
-app.get('/books',catchAsync(async (req, res) => {
-    const books = await Book.find({});
-    res.render('books/index', { books });
-}))
-
-// New Route: add a book page
-app.get('/books/new',catchAsync(async (req, res) => {
-    res.render('books/new');
-}))
-
-// POST new book
-app.post('/books',validateBook, catchAsync(async (req, res) => {
-    const book = new Book(req.body.book);
-    console.log("Book POST:");
-    console.log(book);
-    await book.save();
-    res.redirect(`/books/${book._id}`)
-}))
-
-// Show Route: to show book detail
-app.get('/books/:id',catchAsync(async (req, res) => {
-    const book = await Book.findById(req.params.id).populate('reviews');
-    res.render('books/show',{ book });
-}))
-
-// Edit Route: edit book form
-app.get('/books/:id/edit',catchAsync(async (req, res) => {
-    const book = await Book.findById(req.params.id);
-    res.render('books/edit',{ book });
-}))
-
-// Edit Route: update book
-app.put('/books/:id',validateBook, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const book = await Book.findByIdAndUpdate(id, { ...req.body.book });
-    res.redirect(`/books/${ book._id }`);
-}))
 
 // Review POST route: add review
 app.post('/books/:id/reviews',validateReview, catchAsync(async (req, res) => {
@@ -110,13 +66,6 @@ app.delete('/books/:id/reviews/:reviewId', catchAsync(async (req, res) => {
     await Book.findByIdAndUpdate(id, { $pull: { reviews: reviewId }})
     await Review.findByIdAndDelete(reviewId);
     res.redirect(`/books/${id}`);
-}))
-
-// Delete Route: delete a book
-app.delete('/books/:id',catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Book.findByIdAndDelete(id);
-    res.redirect('/books');
 }))
 
 // Route Error
