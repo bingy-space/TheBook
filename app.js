@@ -7,8 +7,8 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { bookSchema, reviewSchema } = require('./schema.js');
 const books = require('./routes/books');
+const reviews = require('./routes/reviews');
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -35,40 +35,15 @@ app.use(methodOverride('_method'));
 // Book Routes
 app.use('/books', books);
 
-// Middleware
-const validateReview = (req,res,next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    }else{
-        next();
-    }
-}
+// Review Routes
+app.use('/books/:id/reviews', reviews)
 
+// Home Page Route
 app.get('/', (req, res) => {
     res.render('home');
 })
 
-// Review POST route: add review
-app.post('/books/:id/reviews',validateReview, catchAsync(async (req, res) => {
-    const book = await Book.findById(req.params.id);
-    const review = new Review(req.body.review);
-    book.reviews.push(review);
-    await review.save();
-    await book.save();
-    res.redirect(`/books/${book._id}`);
-}))
-
-// Review DELETE route: delete a review
-app.delete('/books/:id/reviews/:reviewId', catchAsync(async (req, res) => {
-    const  {id, reviewId } = req.params;
-    await Book.findByIdAndUpdate(id, { $pull: { reviews: reviewId }})
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/books/${id}`);
-}))
-
-// Route Error
+// Error Route
 app.all('*', (req,res,next) => {
     next(new ExpressError('Page Not Found', 404));
 })
