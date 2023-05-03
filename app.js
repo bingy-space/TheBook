@@ -9,6 +9,8 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const books = require('./routes/books');
 const reviews = require('./routes/reviews');
+const session = require('express-session');
+
 
 // Call mongoose.connect
 mongoose.connect('mongodb://localhost:27017/the-book', {
@@ -33,6 +35,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 // serve public directory
 app.use(express.static(path.join(__dirname, 'public')))
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUnitialized: true,
+    cookie: {
+        httpOnly: true,
+        expire: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig));
 
 // Book Routes
 app.use('/books', books);
